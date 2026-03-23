@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
+import { useCart } from '@/context/CartContext';
+import { useToast } from '@/hooks/use-toast';
 import { products } from '@/data/products';
 
 const categoryCards = [
@@ -67,6 +69,9 @@ const renderStars = (rating: number) => {
 };
 
 const Index = () => {
+  const { addItem } = useCart();
+  const { toast } = useToast();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -222,7 +227,15 @@ const Index = () => {
                         </span>
                       )}
                     </div>
-                    <Button size="icon" variant="ghost" className="h-9 w-9 hover:bg-amber-400/10 hover:text-amber-400">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-9 w-9 hover:bg-amber-400/10 hover:text-amber-400"
+                      onClick={() => {
+                        addItem(product);
+                        toast({ title: 'Добавлено в корзину', description: product.name });
+                      }}
+                    >
                       <Icon name="ShoppingCart" size={18} />
                     </Button>
                   </div>

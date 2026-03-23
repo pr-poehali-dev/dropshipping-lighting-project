@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/context/CartContext';
 import {
   Sheet,
   SheetContent,
@@ -18,6 +19,7 @@ const navLinks = [
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const { totalItems } = useCart();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/5 backdrop-blur-md border-b border-white/10">
@@ -50,9 +52,11 @@ const Header = () => {
           <Button variant="ghost" size="icon" className="relative" asChild>
             <Link to="/cart">
               <Icon name="ShoppingCart" size={20} />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-background">
-                0
-              </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-background">
+                  {totalItems > 99 ? '99+' : totalItems}
+                </span>
+              )}
             </Link>
           </Button>
 

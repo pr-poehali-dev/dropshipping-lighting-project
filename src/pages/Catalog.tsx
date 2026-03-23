@@ -13,6 +13,8 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import Header from '@/components/Header';
+import { useCart } from '@/context/CartContext';
+import { useToast } from '@/hooks/use-toast';
 import { products, categories } from '@/data/products';
 
 type PowerRange = 'low' | 'mid' | 'high';
@@ -67,6 +69,8 @@ const renderStars = (rating: number) => {
 };
 
 const Catalog = () => {
+  const { addItem } = useCart();
+  const { toast } = useToast();
   const [activeCategory, setActiveCategory] = useState('all');
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
@@ -452,6 +456,10 @@ const Catalog = () => {
                         <Button
                           size="sm"
                           className="font-body text-xs gap-1.5 glow-amber-sm"
+                          onClick={() => {
+                            addItem(product);
+                            toast({ title: 'Добавлено в корзину', description: product.name });
+                          }}
                         >
                           <Icon name="ShoppingCart" size={14} />
                           В корзину
